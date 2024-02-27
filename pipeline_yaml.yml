@@ -1,0 +1,22 @@
+trigger:
+  - traning_branch
+
+pool:
+  vmImage: windows-latest
+
+jobs:
+  - job: Release_Pipeline
+
+    steps:
+      - task: UsePythonVersion@0
+        displayName: 'Use Python 3.11'
+        inputs:
+          versionSpec: 3.11.2
+        
+      - script: 'pip install -r requirements.txt' 
+        workingDirectory: '$(System.DefaultWorkingDirectory)/_CICD_Training'
+        displayName: 'Installing Dependencies'
+      
+      - script: 'behave features'  
+        workingDirectory: '$(System.DefaultWorkingDirectory)/_CICD_Training'
+        displayName: 'Execute tests'
